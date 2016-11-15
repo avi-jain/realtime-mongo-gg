@@ -1,18 +1,5 @@
 exports.signup = function(req, res) {
 
-    User.findByIdAndUpdate(req.body.followingId, { $addToSet: { "followers": { username: req.body.follower} } }, {new: true}, function(err, newFollowing) {
-      if(err) {
-        res.json({ success: false, message: err });
-      } else {
-        User.findByIdAndUpdate(req.body.followerId, { $addToSet: { "following": { username: req.body.following} } }, {new: true}, function(err, newFollower) {
-          if(err) {
-            res.json({ success: false, message: err });
-          } else {
-            res.json({ success: true, message: { following: newFollowing, follower: newFollower } });
-          }
-        });
-      }
-    });
 }
 exports.follow = function(req, res) {
 
@@ -89,7 +76,7 @@ exports.changeLocation = function(req, res) {
       );
 }
 
-exports.changeSong = function(req, res) {
+exports.changePartner = function(req, res) {
 
     User.findByIdAndUpdate(
         req.user._id,
@@ -109,3 +96,18 @@ exports.changeSong = function(req, res) {
         }
       );
 }
+
+/*exports.changePartners = function(req, res) {
+	var options = {tailable: true, awaitdata: true, numberOfRetries: -1};
+
+	var stream = Gossip.find(, options).stream();
+
+	stream.on('data', function(doc){
+	    console.log(doc);
+	}).on('error', function (error){
+	    console.log(error);
+	}).on('close', function () {
+	    console.log('closed');
+	});
+
+});*/

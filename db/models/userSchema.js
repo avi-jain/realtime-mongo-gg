@@ -18,17 +18,11 @@ var userSchema = new Schema({
 		required:true,
 		unique:true
 	},
-	location:String,
-	status:String,
-	song: String,
-	followers :{
-		type : Array
-
-	},
+	//Tells what the user in interested in tracking from our DB
 	following :{
 		type : Array
-		
 	},
+	//Changes in the fields that are being tracked. User can remove too
 	notifications:{
 		type: Array
 	},
