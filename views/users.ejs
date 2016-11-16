@@ -21,19 +21,56 @@
     <% for(var i=0; i < users.length; i++) { %>
        <tr>
          <td><%= users[i].username %></td>
-         <td><button>Follow</button></td>
-         <td><button>Unfollow</button><td>
+         <td><button class="follow location">Follow</button></td>
+         <td><button class="follow partner">Follow</button><td>
        </tr>
     <% } %>
     </table>
   </div>
 </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.1/socket.io.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
   <script>
   var socket = io();
   socket.on('location', function(doc){
                                    
   });
+  /*document.getElementByClassName("follow").addEventListener("click", function(){
+    
+  });*/
+  // The rel attribute is the userID you would want to follow
+
+$('button.follow').on('click', function(e){
+    e.preventDefault();
+    $button = $(this);
+    if($button.hasClass('following')){
+        
+        //$.ajax(); Do Unfollow
+        /*jQuery.ajax({
+          url: 'follow',
+          type: 'POST',
+          data: {  :  },
+          success: function(data) {
+            alert("Successfully Followed!");
+          },
+          error: function () {
+            alert("Something went wrong with Follow Button.");
+          }
+        });*/
+        
+        $button.removeClass('following');
+        $button.text('Follow');
+    } else {
+        
+        // $.ajax(); Do Follow
+        
+        $button.addClass('following');
+        $button.text('Following');
+    }
+});
   //Write logic for changing Stalk/Unstalk text on buttons and getting it right the first time
   // by checking the following field of the user and matching the user and table on the field with it
   </script>

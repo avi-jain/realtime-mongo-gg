@@ -4,7 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session')
+var session = require('express-session');
+
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var http = require('http');
@@ -40,20 +42,22 @@ app.set('port', port);
 var server = http.createServer(app);
 var io = require("socket.io")(server);
 
-app.use(passport.initialize());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-passport.use(new LocalStrategy(
+passport.use('user',new LocalStrategy(
   function(username, password, done) {
     User.findOne({ username: username }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+        console.log("Incorrect Username");
+        return done(null, false);
       }
-      if (!user.password != password) {
-        return done(null, false, { message: 'Incorrect password.' });
+      if (user.password != password) {
+        console.log("Incorrect Password");
+        return done(null, false);
       }
       return done(null, user);
     });
@@ -71,17 +75,21 @@ passport.deserializeUser(function(user, cb) {
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(require('morgan')('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'gossipguy', resave:true, saveUninitialized:true}));
+app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
-
-query = {}
+app.post('/login',passport.authenticate('user', { successRedirect: '/users/home/',failureRedirect: '/users/home/'})
+/*  ,function(req, res, next) {
+    res.render('home');
+  }*/);
   /*var cursor = Gossip.find().tailable(true, { awaitData: true,numberOfRetries: Number.MAX_VALUE }).cursor();
 
   cursor.on('data', function(doc) {
@@ -111,7 +119,7 @@ mongo.MongoClient.connect (mongodbUri, function (err, db) {
   io.sockets.on("connection", function (socket) {
   db.collection('gossip').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
                       .each(function(err, doc){
-      console.log(doc);
+      /*console.log(doc);*/
       if (doc) {
           socket.emit("location",doc);
         }
