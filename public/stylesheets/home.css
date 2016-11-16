@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
 body {
   background: #76b852; /* fallback for old browsers */
   background: -webkit-linear-gradient(right, #76b852, #8DC26F);
@@ -10,7 +10,7 @@ body {
   -moz-osx-font-smoothing: grayscale;      
 }
 #notifications { list-style-type: none; margin: 0; padding: 0; }
-#notifications li { padding: 5px 10px; }
+#notifications li { padding: 5px 10px; width: 50%;}
 #notifications li:nth-child(odd) { background: #eee; }
 .container {
   position: relative;
@@ -22,4 +22,30 @@ body {
   content: "";
   display: block;
   clear: both;
+}
+form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 10%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 40%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
 }

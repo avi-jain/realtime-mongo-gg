@@ -1,10 +1,13 @@
+var User = require('../db/models/userSchema');
+var Gossip = require('../db/models/gossipSchema');
+
 exports.signup = function(req, res) {
   User.findOne({ email: req.body.email }, function (err, user) {
         if (err) {
-            res.render({ success: false, msg: "Error"})
+            res.render("oops",{msg:""});
         }
         if (user) {
-            res.render({ success: false, msg:"Error" })
+            res.render("oops",{msg:""});
         } else {
             newUser = new User();
             newUser.save(function (err, user, numberAffected) {
@@ -71,8 +74,12 @@ exports.changeLocation = function(req, res) {
             console.log("Error while updating location");
             res.json("Error occured while updating location.");
           } else {
-           // console.log("updated song : " + song);
-           res.json("updated location");
+            var notification = new Gossip({ location: {username:req.user.username,data:req.body.partner} }); 
+            notification.save(function (err) {
+              if (err) {console.error(err);res.render("oops",{msg:""})}
+              //No response
+              //res.json("updated location");
+            });
           }
         }
       );
@@ -92,8 +99,11 @@ exports.changePartner = function(req, res) {
             console.log("Error while updating partner");
             res.json("Error occured while updating partner.");
           } else {
-           // console.log("updated song : " + song);
-           res.json("Lite");
+            var notification = new Gossip({ partner: {username:req.user.username,data:req.body.partner} }); 
+            notification.save(function (err) {
+              if (err) {console.error(err);res.render("oops",{msg:""})}
+              //No response
+            });
           }
         }
       );
@@ -104,20 +114,20 @@ exports.getAllUsers = function(req, res) {
   User.find({},function(err,users) {
     if(err){
       console.log("Error");
-      res.render();
+      res.render("oops",{msg:""});
     }
     else{
-      User.findById(req.user._id,function(err,following) {
+      /*User.findById(req.user._id,function(err,following) {
         if(err){
           console.log("Error");
-          res.render();
+          res.render("oops",{msg:""})
         }
         else{
-          res.render("users",{users:users});
+          res.render("users",{users:users,following:following});
         }
-      });
-      //res.render("businessbags",{bags:bags});
-      //res.json(bags);
+      });*/
+      res.render("users",{users:users});
+      //res.json(users);
     }
   });
 }

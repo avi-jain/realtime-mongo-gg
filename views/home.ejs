@@ -2,18 +2,19 @@
 <html>
 <head>
   <title>Home</title>
-  <link rel= 'stylesheet' href='/stylesheets/home.css' />
+  <link rel= 'stylesheet' href='/stylesheets/home.css'/>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
   <form class="location">
-    <input type="text" placeholder=""/>
+    <input type="text" placeholder="Update your location"/>
     <button>Update</button>
   </form>
   <form class="partner">
-    <input type="text" placeholder=""/>
+    <input type="text" placeholder="Update your partner"/>
     <button>Update</button>
   </form>
-  <h2>Notifications</h2>
+  <p style="font-size: 1.5em; color: #0e0e0e;">Notifications</p>
 
   <ul id="notifications"></ul>
 
@@ -25,7 +26,7 @@
     var node = document.createElement("li");
     if(Object.keys(doc)[1] == "location"){
     console.log(doc);   
-    var textnode = document.createTextNode(doc);
+    var textnode = document.createTextNode(doc.location.username + " changed location to " + doc.location.data);
     node.appendChild(textnode);         
     list.appendChild(node);
     }
