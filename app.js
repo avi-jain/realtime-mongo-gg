@@ -46,30 +46,36 @@ var io = require("socket.io")(server);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override,Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "POST, GET,OPTIONS");
+  next();
+});
 
 passport.use('user',new LocalStrategy(
-  function(username, password, done) {
+  function(username, password, cb) {
     User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
+      if (err) { return (err); }
       if (!user) {
         console.log("Incorrect Username");
-        return done(null, false);
+        return cb(null, false);
       }
       if (user.password != password) {
         console.log("Incorrect Password");
-        return done(null, false);
+        return cb(null, false);
       }
-      return done(null, user);
+      return cb(null, user);
     });
   }
 ));
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
 });
 
 passport.deserializeUser(function(user, cb) {
-  done(null, user);
+  cb(null, user);
 });
 
 // uncomment after placing your favicon in /public
@@ -80,16 +86,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'gossipguy', resave:true, saveUninitialized:true}));
+app.use(session({ secret: 'gossipguy', resave:false, saveUninitialized:false}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
-app.post('/login',passport.authenticate('user', { successRedirect: '/users/home/',failureRedirect: '/users/home/'})
-/*  ,function(req, res, next) {
+app.post('/login',passport.authenticate('user'),function(req, res) {
     res.render('home');
-  }*/);
+  });
   /*var cursor = Gossip.find().tailable(true, { awaitData: true,numberOfRetries: Number.MAX_VALUE }).cursor();
 
   cursor.on('data', function(doc) {
