@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <title>Home</title>
+  <link rel= 'stylesheet' href='/stylesheets/users.css' />
+</head>
+<body>
+
+  <h2>Users</h2>
+  <h2>Select the users and their details that you wish to stalk :P</h2>
+  <ul id="users"></ul>
+<div class="container">
+  <div class="table-responsive">
+    <table class="table">
+      <tr>
+         <th>Name</th>
+         <th>Location</th>
+         <th>Partner</th>
+       </tr>
+    <% for(var i=0; i < users.length; i++) { %>
+       <tr>
+         <td><%= users[i]._id %></td>
+         <button>Follow</button>
+         <button>Unfollow</button>
+       </tr>
+    <% } %>
+    </table>
+  </div>
+</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.1/socket.io.js"></script>
+  <script>
+  var socket = io();
+  socket.on('location', function(doc){
+                                   
+  });
+  //Write logic for changing Stalk/Unstalk text on buttons and getting it right the first time
+  // by checking the following field of the user and matching the user and table on the field with it
+  </script>
+</body>
+</html>

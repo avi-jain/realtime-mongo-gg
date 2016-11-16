@@ -52,7 +52,7 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
+      if (!user.password != password) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
@@ -61,13 +61,11 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(function(user, cb) {
+  done(null, user);
 });
 
 // uncomment after placing your favicon in /public
@@ -96,28 +94,8 @@ query = {}
   }).on('close', function () {
       console.log('closed');
   });*/
+
 /*mongo.MongoClient.connect (mongodbUri, function (err, db) {
-
-  db.collection('gossip').find({}, {tailable:true, awaitdata:true, numberOfRetries:-1}) 
-                      .each(function(err, doc) {
-      console.log(doc);
-    })
-});
-mongo.MongoClient.connect (mongodbUri, function (err, db) {
-
-  db.collection('gossip').find({}, {tailable:true, awaitdata:true, numberOfRetries:-1}) 
-                      .each(function(err, doc) {
-      console.log(doc);
-    })
-});
-mongo.MongoClient.connect (mongodbUri, function (err, db) {
-
-  db.collection('gossip').find({}, {tailable:true, awaitdata:true, numberOfRetries:-1}) 
-                      .each(function(err, doc) {
-      console.log(doc);
-    })
-});*/
-mongo.MongoClient.connect (mongodbUri, function (err, db) {
   io.sockets.on("connection", function (socket) {
   db.collection('gossip').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
                       .each(function(err, doc){
@@ -127,7 +105,31 @@ mongo.MongoClient.connect (mongodbUri, function (err, db) {
         }
     });
   });
+});*/
+// For location field notifications
+mongo.MongoClient.connect (mongodbUri, function (err, db) {
+  io.sockets.on("connection", function (socket) {
+  db.collection('gossip').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
+                      .each(function(err, doc){
+      console.log(doc);
+      if (doc) {
+          socket.emit("location",doc);
+        }
+    });
+  });
 });
+//For partner field notifications
+/*mongo.MongoClient.connect (mongodbUri, function (err, db) {
+  io.sockets.on("connection", function (socket) {
+  db.collection('gossip').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
+                      .each(function(err, doc){
+      console.log(doc);
+      if (doc) {
+          socket.emit("partner",doc);
+        }
+    });
+  });
+});*/
 /*
 io.on('connection',function(socket){
     console.log('Connection successful!');

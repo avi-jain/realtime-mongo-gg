@@ -1,13 +1,18 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
-var userSchema = new Schema({
-	status: String,
+//  Could reference users collection but that'd be overkill, plus capped collection so 
+// can't perform complex operations here, hence simple insertion everytime
+var gossipSchema = new Schema({
 	partner: {
-		type: String,
-		unique: false
+		// Name of the user / Username of user
+		username: String,
+		data: String
 	},
-	location: String
+	location: {
+		username: String,
+		data: String
+	}
 },
 {
   	capped: 10000
@@ -16,4 +21,4 @@ var userSchema = new Schema({
 	collection : 'gossip' 
 });
 
-module.exports = mongoose.model("Gossip",userSchema);
+module.exports = mongoose.model("Gossip",gossipSchema);

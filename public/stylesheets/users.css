@@ -9,17 +9,4 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 }
-#notifications { list-style-type: none; margin: 0; padding: 0; }
-#notifications li { padding: 5px 10px; }
-#notifications li:nth-child(odd) { background: #eee; }
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
-}
-.container:before, .container:after {
-  content: "";
-  display: block;
-  clear: both;
-}
+

@@ -5,6 +5,14 @@
   <link rel= 'stylesheet' href='/stylesheets/home.css' />
 </head>
 <body>
+  <form class="location">
+    <input type="text" placeholder=""/>
+    <button>Update</button>
+  </form>
+  <form class="partner">
+    <input type="text" placeholder=""/>
+    <button>Update</button>
+  </form>
   <h2>Notifications</h2>
 
   <ul id="notifications"></ul>
@@ -12,12 +20,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.1/socket.io.js"></script>
   <script>
   var socket = io();
-  socket.on('message', function(doc){
+  socket.on('location', function(doc){
     var list = document.getElementById('notifications');
-    var node = document.createElement("li");   
-    var textnode = document.createTextNode(doc.text);
+    var node = document.createElement("li");
+    if(Object.keys(doc)[1] == "location"){
+    console.log(doc);   
+    var textnode = document.createTextNode(doc);
     node.appendChild(textnode);         
-    list.appendChild(node);                              
+    list.appendChild(node);
+    }
+    if(Object.keys(doc)[1] == "partner"){
+    console.log(doc);   
+    }                                
   });
   </script>
 </body>
