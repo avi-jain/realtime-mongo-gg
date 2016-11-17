@@ -24,10 +24,24 @@
     <% for(var i=0; i < users.length; i++) { %>
        <tr>
          <td class="username"><%= users[i].username %></td>
-         <td><button class="follow location" >Follow</button></td>
-         <td><button class="follow partner" >Follow</button><td>
+         <td><button class="follow location" >
+         <!-- Check following or not -->
+         <% if( following.includes({username:users[i].username,field:"location"}) ){ %>
+             Follow
+           <% } else{ %>  
+             Unfollow
+          <% } %>
+         </button></td>
+
+         <td><button class="follow partner" >
+         <% if( following.includes({username:users[i].username,field:"partner"}) ){ %>
+           Follow
+         <% } else{ %>  
+           Unfollow
+        <% } %>
+          </button><td>
        </tr>
-    <% } %>
+    <% } %> <!-- For loop ends here -->
     </table>
   </div>
 </div>
@@ -44,7 +58,6 @@
   /*document.getElementByClassName("follow").addEventListener("click", function(){
     
   });*/
-  // The rel attribute is the userID you would want to follow
 
 $('button.follow').on('click', function(e){
     e.preventDefault();

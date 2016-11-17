@@ -3,12 +3,8 @@ var router = express.Router();
 var api = require('../api/api.js');
 
 //This shall hold the user related functions
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-router.get('/home', function(req, res, next) {
-  res.render('home');
-});
+router.get('/', api.getHome);
+router.get('/home', api.getHome);
 router.get('/stalk', api.getAllUsers);
 router.post('/stalk/follow', api.follow);
 router.post('/stalk/unfollow', api.unfollow);

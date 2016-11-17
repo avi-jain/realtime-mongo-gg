@@ -29,10 +29,17 @@ exports.signup = function(req, res) {
         }
     });
 }
+exports.getHome = function(req, res) {
+          if(req.user) {
+            res.render("home",{user:req.user});
+          } else {
+            res.render("index");
+          }
+}
 
 exports.follow = function(req, res) {
 
-        User.findByIdAndUpdate(req.user._id, { $push: { "following": { name: req.body.follow, field:req.body.field} } }, {new: true}, function(err, user) {
+        User.findByIdAndUpdate(req.user._id, { $push: { "following": { username: req.body.username, field:req.body.field} } }, {new: true}, function(err, user) {
           if(err) {
             res.json({ success: false, message: err });
           } else {
@@ -43,7 +50,7 @@ exports.follow = function(req, res) {
 
 exports.unfollow = function(req, res) {
 
-        User.findByIdAndUpdate(req.user._id, { $pull: { "following": { name: req.body.unfollow, field: req.body.field} } }, {new: true}, function(err, user) {
+        User.findByIdAndUpdate(req.user._id, { $pull: { "following": { username: req.body.username, field: req.body.field} } }, {new: true}, function(err, user) {
           if(err) {
             res.json({ success: false, message: err });
           } else {
@@ -73,7 +80,7 @@ exports.changeLocation = function(req, res) {
               }
               else{
                 //res.io.emit('location', { username: req.user.username, location: req.body.location });
-                res.json(notif);
+                res.render("oops",{msg:"Updated location details"});
               }
             });
           }
@@ -97,7 +104,7 @@ exports.changePartner = function(req, res) {
               //No response
               else{
                 //res.io.emit('partner', { username: req.body.username, status: req.body.partner });
-                res.send("Updated");
+                res.render("oops",{msg:"Updated Partner details"});
               }
             });
           }
@@ -110,19 +117,20 @@ exports.getAllUsers = function(req, res) {
   User.find({},function(err,users) {
     if(err){
       console.log("Error");
-      res.render("oops",{msg:""});
+      res.render("oops",{msg:"Could not fetch user list. Please try again."});
     }
     else{
-      /*User.findById(req.session.passport.user._id,function(err,following) {
+      User.findById(req.user._id,function(err,user) {
         if(err){
           console.log("Error");
           res.render("oops",{msg:""})
         }
         else{
-          res.render("users",{users:users,following:following});
+          console.log(user.following);
+          res.render("users",{users:users,following:user.following});
         }
-      });*/
-      res.render("users",{users:users});
+      });
+      //res.render("users",{users:users});
       //res.json(users);
     }
   });

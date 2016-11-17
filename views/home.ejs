@@ -6,6 +6,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
+  <p id="uid" style="font-size: 1.5em; color: #0e0e0e;">Welcome, <%= user.username %> </p>
   <form class="location" action="/users/location" method="post">
     <input type="text" placeholder="Update your location" name="location"/>
     <button id="locationupdate" type="submit" value="location">Update</button>
@@ -15,19 +16,28 @@
     <button id="partnerupdate" type="submit" value="partner">Update</button>
   </form>
   <form class="logout-form" action="/logout" method="post">
-        <button id="logout" type="submit" value="logout">Logout</button>
+        <button id="logout" type="submit" value="logout" style="background: #c20e2f;">Logout</button>
   </form>
   <p style="font-size: 1.5em; color: #0e0e0e;">Notifications</p>
 
   <ul id="notifications"></ul>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.1/socket.io.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+
   <script>
+  //var user = document.getElementById("uid");
+  var user = <%- JSON.stringify(user) %>
+  console.log(user);
+  console.log(user.username);
   var socket = io();
   socket.on('location', function(doc){
+    if(user.following){
     var list = document.getElementById('notifications');
     var node = document.createElement("li");
-    if(doc.type == "location"){
     console.log(doc);   
     var textnode = document.createTextNode(doc.username + " changed location to " + doc.data);
     node.appendChild(textnode);         
@@ -35,15 +45,38 @@
     }
   });
   socket.on('partner', function(doc){
+    if(user.following){
     var list = document.getElementById('notifications');
     var node = document.createElement("li");
-    if(true){
     console.log(doc);   
     var textnode = document.createTextNode(doc.username + " changed partner to " + doc.data);
     node.appendChild(textnode);         
     list.appendChild(node);
     }                             
   });
+  //Convert to ajax
+  /*$('button.').on('click', function(e){
+    e.preventDefault();
+    $button = $(this);
+        if($button.hasClass('locationupdate')){
+          var field = "location";
+        }
+        else{
+          field = "partner";
+        }
+        $.ajax({
+          url: 'http://localhost:3000/users/' + field,
+          type: 'POST',
+          data: {},
+          success: function(data) {
+            alert("Successful");
+            console.log('success');
+          },
+          error: function () {
+            alert("Something went wrong. Could not update.");
+          }
+        });
+  }*/
   </script>
 </body>
 </html>
