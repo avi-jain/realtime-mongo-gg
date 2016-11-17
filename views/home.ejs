@@ -31,16 +31,29 @@
   <script>
   //var user = document.getElementById("uid");
   var user = <%- JSON.stringify(user) %>
-  console.log(user);
+  //console.log(user);
   console.log(user.username);
-  console.log(user.following);
+  console.log(typeof(user.following[0].username));
+
   var socket = io();
   socket.on('location', function(doc){
     var obj = {
-                username:doc.username,
-                field:"location"
+                field:"location",
+                username:doc.username
               }
-    if(user.following.includes(obj)){
+    console.log(obj);
+    console.log(typeof(doc.username));
+    var lag = false
+    console.log(user.following.includes(obj))
+    /*if(user.following.includes(obj))*/
+    for(var j = 0; j < user.following.length; j++) {
+      if(user.following[j].username == (doc.username) && user.following[j].field == ("location")) {
+        lag = true;
+        console.log(lag);
+        break;
+      }
+    }
+    if(lag){
     var list = document.getElementById('notifications');
     var node = document.createElement("li");
     console.log(doc);   
@@ -52,10 +65,20 @@
   socket.on('partner', function(doc){
     console.log(doc.username.toString());
     var obj = {
-                username:doc.username,
-                field:"partner"
+                field:"partner",
+                username:doc.username
               }
-    if( user.following.includes(obj) ){
+    console.log(obj);
+    var flag = false
+    /*if( user.following.includes(obj) )*/
+    for(var j = 0; j < user.following.length; j++) {
+      if(user.following[j].username == (doc.username) && user.following[j].field == ("partner")) {
+          flag = true;
+          console.log(flag);
+          break;
+      }
+    }
+    if(flag){
     var list = document.getElementById('notifications');
     var node = document.createElement("li");
     console.log(doc);   

@@ -17,7 +17,7 @@
   <div class="table-responsive">
     <table class="table">
       <tr>
-         <th >Username</th>
+         <th>Username</th>
          <th>Location</th>
          <th>Partner</th>
        </tr>
@@ -29,7 +29,7 @@
          <!-- Check following or not -->
         <% var found = false %>
         <% for(var j = 0; j < following.length; j++) { %>
-            <% if (following[j].username == users[i].username) {%>
+            <% if((following[j].username == (users[i].username)) && (following[j].field == ("location"))){%>
                 <% found = true %>
                 <% break; %>
             <% } %>
