@@ -26,7 +26,7 @@ var userSchema = new Schema({
 	//Tells what the user in interested in tracking from our DB
 	//Again, we can use references here too. Would be easier in fact 
 	// [{ type: ObjectId, ref: 'User' }]
-	following :[{ name: String, field: String }],
+	following :[{ username: String, field: String }],
 	//Changes in the fields that are being tracked. User can remove too
 	/*notifications:{
 		type: Array

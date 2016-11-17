@@ -12,7 +12,7 @@
   <ul id="users"></ul>
 <div class="container">
   <form class="logout-form" action="/logout" method="post">
-        <button id="logout" type="submit" value="logout">Logout</button>
+        <button class="logout" type="submit" value="logout">Logout</button>
   </form>
   <div class="table-responsive">
     <table class="table">
@@ -23,9 +23,9 @@
        </tr>
     <% for(var i=0; i < users.length; i++) { %>
        <tr>
-         <td><%= users[i].username %></td>
-         <td><button class="follow location">Follow</button></td>
-         <td><button class="follow partner">Follow</button><td>
+         <td class="username"><%= users[i].username %></td>
+         <td><button class="follow location" >Follow</button></td>
+         <td><button class="follow partner" >Follow</button><td>
        </tr>
     <% } %>
     </table>
@@ -50,29 +50,57 @@ $('button.follow').on('click', function(e){
     e.preventDefault();
     $button = $(this);
     if($button.hasClass('following')){
-        
-        //$.ajax(); Do Unfollow
-        /*jQuery.ajax({
-          url: 'follow',
+        if($button.hasClass('location')){
+          var field = "location";
+        }
+        else{
+          field = "partner";
+        }
+        //username = $(this).closest('td').filter('.username').text();
+        //console.log(username + field);
+        //unfollow
+        $.ajax({
+          url: 'http://localhost:3000/users/stalk/unfollow',
           type: 'POST',
-          data: {  :  },
+          data: { username : "avi", field: field},
+          success: function(data) {
+            alert("Successfully Unfollowed!");
+            console.log('success');
+            $button.removeClass('following');
+            $button.text('Follow');
+          },
+          error: function () {
+            alert("Something went wrong with unfollow Button.");
+          }
+        });
+        
+    } 
+    else {
+      if($button.hasClass('location')){
+          var field = "location";
+        }
+        else{
+          field = "partner";
+        }
+        //username = $(this).closest('td').filter('.username').text();
+        //console.log(username + field);
+        //follow
+        $.ajax({
+          url: 'http://localhost:3000/users/stalk/follow',
+          type: 'POST',
+          data: {username:"avi",field: field},
           success: function(data) {
             alert("Successfully Followed!");
             console.log('success');
+            $button.addClass('following');
+            $button.text('Following');
           },
           error: function () {
             alert("Something went wrong with Follow Button.");
           }
-        });*/
+        });
         
-        $button.removeClass('following');
-        $button.text('Follow');
-    } else {
         
-        // $.ajax(); Do Follow
-        
-        $button.addClass('following');
-        $button.text('Following');
     }
 });
   //Write logic for changing Stalk/Unstalk text on buttons and getting it right the first time

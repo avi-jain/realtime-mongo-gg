@@ -23,3 +23,16 @@ table button {
     transition: all 0.3 ease;
     cursor: pointer;
 }
+
+.logout{
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #D24D57;
+    width: 100px;
+    border: 0;
+    padding: 5px;
+    color: #000;
+    font-size: 14px;
+    cursor: pointer;
+}
