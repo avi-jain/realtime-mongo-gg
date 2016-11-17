@@ -6,13 +6,16 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
-  <form class="location">
-    <input type="text" placeholder="Update your location"/>
-    <button>Update</button>
+  <form class="location" action="/users/location" method="post">
+    <input type="text" placeholder="Update your location" name="location"/>
+    <button id="locationupdate" type="submit" value="location">Update</button>
   </form>
-  <form class="partner">
-    <input type="text" placeholder="Update your partner"/>
-    <button>Update</button>
+  <form class="partner" action="/users/partner" method="post">
+    <input type="text" placeholder="Update your partner" name="partner"/>
+    <button id="partnerupdate" type="submit" value="partner">Update</button>
+  </form>
+  <form class="logout-form" action="/logout" method="post">
+        <button id="logout" type="submit" value="logout">Logout</button>
   </form>
   <p style="font-size: 1.5em; color: #0e0e0e;">Notifications</p>
 
@@ -24,15 +27,22 @@
   socket.on('location', function(doc){
     var list = document.getElementById('notifications');
     var node = document.createElement("li");
-    if(Object.keys(doc)[1] == "location"){
+    if(doc.type == "location"){
     console.log(doc);   
-    var textnode = document.createTextNode(doc.location.username + " changed location to " + doc.location.data);
+    var textnode = document.createTextNode(doc.username + " changed location to " + doc.data);
     node.appendChild(textnode);         
     list.appendChild(node);
     }
-    if(Object.keys(doc)[1] == "partner"){
+  });
+  socket.on('partner', function(doc){
+    var list = document.getElementById('notifications');
+    var node = document.createElement("li");
+    if(true){
     console.log(doc);   
-    }                                
+    var textnode = document.createTextNode(doc.username + " changed partner to " + doc.data);
+    node.appendChild(textnode);         
+    list.appendChild(node);
+    }                             
   });
   </script>
 </body>

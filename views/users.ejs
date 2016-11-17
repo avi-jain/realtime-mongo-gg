@@ -11,6 +11,9 @@
   <p style="font-size: 1.2em;">Select the users and their details that you wish to stalk</p>
   <ul id="users"></ul>
 <div class="container">
+  <form class="logout-form" action="/logout" method="post">
+        <button id="logout" type="submit" value="logout">Logout</button>
+  </form>
   <div class="table-responsive">
     <table class="table">
       <tr>
@@ -55,6 +58,7 @@ $('button.follow').on('click', function(e){
           data: {  :  },
           success: function(data) {
             alert("Successfully Followed!");
+            console.log('success');
           },
           error: function () {
             alert("Something went wrong with Follow Button.");

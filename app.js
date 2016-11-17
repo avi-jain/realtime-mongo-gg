@@ -89,18 +89,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'gossipguy', resave:false, saveUninitialized:false}));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(function(req, res, next){
+  res.io = io;
+  next();
+})
 app.use('/', routes);
 app.use('/users', users);
 app.post('/login',passport.authenticate('user'),function(req, res) {
-    res.render('home');
-  });
+    res.redirect('/users/home');
+});
+app.post('/users/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+app.post('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
   /*var cursor = Gossip.find().tailable(true, { awaitData: true,numberOfRetries: Number.MAX_VALUE }).cursor();
 
   cursor.on('data', function(doc) {
     console.log(doc);
   });*/
-  /*cursor.on('data', function(datas){
+  /*cursor.on('data', function(data){
       console.log(data);
   }).on('error', function (error){
       console.log(error);
@@ -108,53 +119,46 @@ app.post('/login',passport.authenticate('user'),function(req, res) {
       console.log('closed');
   });*/
 
-/*mongo.MongoClient.connect (mongodbUri, function (err, db) {
-  io.sockets.on("connection", function (socket) {
-  db.collection('gossip').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
-                      .each(function(err, doc){
-      console.log(doc);
-      if (doc) {
-          socket.emit("message",doc);
-        }
-    });
-  });
-});*/
-// For location field notifications
+// Mongo's tailable cursors can also be used for field level or nested level querying 
+// by modifying the find operation. Here we simply check the type field of the gossips collection.
 mongo.MongoClient.connect (mongodbUri, function (err, db) {
   io.sockets.on("connection", function (socket) {
-  db.collection('gossip').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
+  db.collection('gossips').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
+                      .each(function(err, doc){
+      /*console.log(doc);*/
+      if (doc) {
+          socket.emit("all",doc);
+        }
+    });
+  db.collection('gossips').find({type:"partner"},{tailable:true, awaitData:true, numberOfRetries:-1}) 
+                      .each(function(err, doc){
+      /*console.log(doc);*/
+      if (doc) {
+          socket.emit("partner",doc);
+        }
+    });
+  db.collection('gossips').find({type:"location"},{tailable:true, awaitData:true, numberOfRetries:-1}) 
                       .each(function(err, doc){
       /*console.log(doc);*/
       if (doc) {
           socket.emit("location",doc);
         }
     });
+  
   });
 });
-//For partner field notifications
-/*mongo.MongoClient.connect (mongodbUri, function (err, db) {
-  io.sockets.on("connection", function (socket) {
-  db.collection('gossip').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
-                      .each(function(err, doc){
-      console.log(doc);
-      if (doc) {
-          socket.emit("partner",doc);
-        }
-    });
-  });
-});*/
-/*
-io.on('connection',function(socket){
+
+/*io.on('connection',function(socket){
     console.log('Connection successful!');
     // This event will be emitted when a user changes .
-    socket.on('statuschange',function(data){
-        socket.broadcast.emit('Status Changed');
+    socket.on('allchange',function(data){
+        socket.volatile.emit('Status Changed');
     });
     socket.on('locationchange',function(data){
-        socket.broadcast.emit('Location Changed');
+        socket.emit('Location Changed');
     });
     socket.on('partnerchange',function(data){
-        socket.broadcast.emit('Ahem');
+        socket.emit('Ahem');
     });
 });*/
 

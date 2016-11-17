@@ -7,9 +7,10 @@ exports.signup = function(req, res) {
             console.log(err);
             res.render("oops",{msg:"Please enter valid input values"});
         }
-        if (user) {
+        else if (user) {
             res.render("oops",{msg:"User exists."});
-        } else {
+        } 
+        else {
             newUser = new User({email:req.body.email,password:req.body.password,
                                 username:req.body.username});
             newUser.save(function (err, user, numberAffected) {
@@ -17,7 +18,7 @@ exports.signup = function(req, res) {
                   console.log(err);
                   res.render("oops",{msg:"User could not be created. Please try again"});
                 }
-                if (numberAffected === 1) {
+                else if (numberAffected === 1) {
                     res.render("home",{user:user});
                 } 
                 else {
@@ -31,7 +32,7 @@ exports.signup = function(req, res) {
 
 exports.follow = function(req, res) {
 
-        User.findByIdAndUpdate(req.session.passport.user._id, { $addToSet: { "following": { username: req.body.following} } }, {new: true}, function(err, user) {
+        User.findByIdAndUpdate(req.user._id, { $push: { "following": { name: req.body.follow, field:req.body.field} } }, {new: true}, function(err, user) {
           if(err) {
             res.json({ success: false, message: err });
           } else {
@@ -42,11 +43,11 @@ exports.follow = function(req, res) {
 
 exports.unfollow = function(req, res) {
 
-        User.findByIdAndUpdate(req.session.passport.user._id, { $pull: { "following": { username: req.body.following} } }, {new: true}, function(err, newFollower) {
+        User.findByIdAndUpdate(req.user._id, { $pull: { "following": { name: req.body.unfollow, field: req.body.field} } }, {new: true}, function(err, user) {
           if(err) {
             res.json({ success: false, message: err });
           } else {
-            res.json({ success: true, message: { following: newFollowing, follower: newFollower } });
+            res.json({ user});
           }
         });
 }
@@ -54,22 +55,26 @@ exports.unfollow = function(req, res) {
 
 exports.changeLocation = function(req, res) {
     User.findByIdAndUpdate(
-        req.session.passport.user._id,
-        {$set : {
+        req.user._id,
+        {
           location : req.body.location,
-        }
-      },
+        },
         {new:true},
         function(err, user) {
           if (err) {
             console.log("Error while updating location");
             res.json("Error occured while updating location.");
           } else {
-            var notification = new Gossip({ location: {username:req.session.passport.user.username,data:req.body.partner} }); 
-            notification.save(function (err) {
-              if (err) {console.error(err);res.render("oops",{msg:""})}
-              //No response
-              //res.json("updated location");
+            notification = new Gossip({ type:"location",username:req.user.username,data:req.body.location}); 
+            notification.save(function (err, notif) {
+              if (err) {
+                console.error(err);
+                res.render("oops",{msg:""})
+              }
+              else{
+                //res.io.emit('location', { username: req.user.username, location: req.body.location });
+                res.json(notif);
+              }
             });
           }
         }
@@ -79,21 +84,21 @@ exports.changeLocation = function(req, res) {
 exports.changePartner = function(req, res) {
 
     User.findByIdAndUpdate(
-        req.session.passport.user._id,
-        {$set : {
-          partner : req.body.partner,
-        }
-      },
+        req.user._id,{partner:req.body.partner},
         {new:true},
         function(err, user) {
           if (err) {
             console.log("Error while updating partner");
             res.json("Error occured while updating partner.");
           } else {
-            var notification = new Gossip({ partner: {username:req.session.passport.user.username,data:req.body.partner} }); 
+            var notification = new Gossip({ type:"partner",username:req.user.username,data:req.body.partner}); 
             notification.save(function (err) {
               if (err) {console.error(err);res.render("oops",{msg:""})}
               //No response
+              else{
+                //res.io.emit('partner', { username: req.body.username, status: req.body.partner });
+                res.send("Updated");
+              }
             });
           }
         }
