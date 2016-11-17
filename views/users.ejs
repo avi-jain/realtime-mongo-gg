@@ -24,20 +24,28 @@
     <% for(var i=0; i < users.length; i++) { %>
        <tr>
          <td class="username"><%= users[i].username %></td>
+
          <td><button class="follow location" >
          <!-- Check following or not -->
-         <% if( following.includes({username:users[i].username,field:"location"}) ){ %>
-             Follow
+        <% var found = false %>
+        <% for(var j = 0; j < following.length; j++) { %>
+            <% if (following[j].username == users[i].username) {%>
+                <% found = true %>
+                <% break; %>
+            <% } %>
+        <% } %>
+         <% if(found){ %>
+             Following
            <% } else{ %>  
-             Unfollow
+             Follow
           <% } %>
          </button></td>
 
          <td><button class="follow partner" >
-         <% if( following.includes({username:users[i].username,field:"partner"}) ){ %>
-           Follow
+         <% if(found){ %>
+           Following
          <% } else{ %>  
-           Unfollow
+           Follow
         <% } %>
           </button><td>
        </tr>

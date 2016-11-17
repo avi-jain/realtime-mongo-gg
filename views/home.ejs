@@ -33,9 +33,14 @@
   var user = <%- JSON.stringify(user) %>
   console.log(user);
   console.log(user.username);
+  console.log(user.following);
   var socket = io();
   socket.on('location', function(doc){
-    if(user.following){
+    var obj = {
+                username:doc.username,
+                field:"location"
+              }
+    if(user.following.includes(obj)){
     var list = document.getElementById('notifications');
     var node = document.createElement("li");
     console.log(doc);   
@@ -45,7 +50,12 @@
     }
   });
   socket.on('partner', function(doc){
-    if(user.following){
+    console.log(doc.username.toString());
+    var obj = {
+                username:doc.username,
+                field:"partner"
+              }
+    if( user.following.includes(obj) ){
     var list = document.getElementById('notifications');
     var node = document.createElement("li");
     console.log(doc);   
@@ -54,7 +64,7 @@
     list.appendChild(node);
     }                             
   });
-  //Convert to ajax
+  //Convert updates to ajax
   /*$('button.').on('click', function(e){
     e.preventDefault();
     $button = $(this);
