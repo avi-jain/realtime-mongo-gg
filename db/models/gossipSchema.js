@@ -6,10 +6,9 @@ var ObjectId = Schema.Types.ObjectId;
 // hence simple insertion everytime
 var gossipSchema = new Schema({
 		// Specify type such as location
-		type: String,
-		// Name of the user / Username of user
+		type    : String,
 		username: String,
-		data: String
+		data    : String
 },
 {
   	capped: 10000

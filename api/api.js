@@ -1,4 +1,4 @@
-var User = require('../db/models/userSchema');
+var User   = require('../db/models/userSchema');
 var Gossip = require('../db/models/gossipSchema');
 
 exports.signup = function(req, res) {
@@ -59,7 +59,7 @@ exports.unfollow = function(req, res) {
         });
 }
 
-
+//Changes the location field of the current user
 exports.changeLocation = function(req, res) {
     User.findByIdAndUpdate(
         req.user._id,
@@ -87,7 +87,7 @@ exports.changeLocation = function(req, res) {
         }
       );
 }
-
+//Changes the partner field of the current user
 exports.changePartner = function(req, res) {
 
     User.findByIdAndUpdate(
@@ -101,7 +101,6 @@ exports.changePartner = function(req, res) {
             var notification = new Gossip({ type:"partner",username:req.user.username,data:req.body.partner}); 
             notification.save(function (err) {
               if (err) {console.error(err);res.render("oops",{msg:""})}
-              //No response
               else{
                 res.io.emit('partner', { username: req.body.username, data: req.body.partner });
                 res.render("oops",{msg:"Updated Partner details"});
@@ -130,8 +129,6 @@ exports.getAllUsers = function(req, res) {
           res.render("users",{users:users,following:user.following});
         }
       });
-      //res.render("users",{users:users});
-      //res.json(users);
     }
   });
 }

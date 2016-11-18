@@ -3,19 +3,19 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 var userSchema = new Schema({
 	email: {
-		type: String,
-		unique: true,
-		lowercase:true,
-		required:true
+		type     : String,
+		unique   : true,
+		lowercase: true,
+		required : true
 	},
 	username: {
-		type: String,
-		required:true,
-		unique: true
+		type    : String,
+		required: true,
+		unique  : true
 	},
 	password: {
-		type:String,
-		required:true
+		type    : String,
+		required: true
 	},
 	location:{
 		type:String

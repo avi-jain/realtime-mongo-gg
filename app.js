@@ -1,31 +1,32 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+var express      = require('express');
+var path         = require('path');
+var favicon      = require('serve-favicon');
+var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
+var bodyParser   = require('body-parser');
+var session      = require('express-session');
 
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var http = require('http');
-var mongo = require("mongodb");
+var routes     = require('./routes/index');
+var users      = require('./routes/users');
+var http       = require('http');
+var mongo      = require("mongodb");
 var mongodbUri = "mongodb://127.0.0.1/test";
 
 //Mongoose
-var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-var Schema = mongoose.Schema;
-var ObjectId = Schema.Types.ObjectId;
+var mongoose             = require('mongoose');
+mongoose.Promise         = global.Promise;
+var Schema               = mongoose.Schema;
+var ObjectId             = Schema.Types.ObjectId;
+
 mongoose.connect('mongodb://localhost/test');
 
-const User = require('./db/models/userSchema.js');
+const User   = require('./db/models/userSchema.js');
 const Gossip = require('./db/models/gossipSchema.js');
-const auth = require('connect-ensure-login').ensureLoggedIn('/login');
+const auth   = require('connect-ensure-login').ensureLoggedIn('/login');
 
 //Passport
-var passport = require('passport');
+var passport      = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
@@ -41,7 +42,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var io = require("socket.io")(server);
+var io     = require("socket.io")(server);
 
 
 // view engine setup

@@ -14,6 +14,7 @@ It makes use of Passport for helper functions of login and sessions and socket.i
 * Run the mongod service
 * Create a *gossips* collection **which must be a capped collection** and a *users* collection.
 * Run the server using either `npm start` or `node app.js`. It runs on port 3000.
+* You'll need a working internet connection, for socket.io is being server via CDN. Can change it to be served locally.
 
 ###NOTES - 
 
@@ -27,3 +28,4 @@ front-end libraries(Bootstrap/Material). So yes, it's kinda ugly to look at.
 * Displays self username in stalk page. Remove that while looping over user list.
 * Convert location/partner updates to ajax instead of rendering a new page
 * Make the cursor emit the latest document only
+* Add bcrypt, helmet for security.   

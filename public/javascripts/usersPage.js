@@ -8,9 +8,9 @@ $('button.follow').on('click', function(e){
         else{
           field = "partner";
         }
-        var parent = $(this).parent().text();
+        //get the username
         var username = $(this).closest('tr').find('td:nth-child(1)').text();
-        //var username = JSON.stringify($(this).closest('td').filter('.username'));
+
         console.log(username + field);
         //unfollow
         $.ajax({

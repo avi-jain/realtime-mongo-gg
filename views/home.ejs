@@ -31,10 +31,7 @@
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
   <script>
-    var user = <%- JSON.stringify(user) %>
-  //console.log(user);
-  console.log(user.username);
-  console.log(typeof(user.following[0].username));
+    var user = <%- JSON.stringify(user) %> 
 
   var socket = io();
   socket.on('location', function(doc){
@@ -44,13 +41,12 @@
               }
     //console.log(obj);
     //console.log(typeof(doc.username));
-    var lag = false
-    //console.log(user.following.includes(obj))
+    var lag = false 
+
     /*if(user.following.includes(obj))*/
     for(var j = 0; j < user.following.length; j++) {
       if(user.following[j].username == (doc.username) && user.following[j].field == ("location")) {
         lag = true;
-        console.log(lag);
         break;
       }
     }
@@ -73,7 +69,6 @@
     for(var j = 0; j < user.following.length; j++) {
       if(user.following[j].username == (doc.username) && user.following[j].field == ("partner")) {
           flag = true;
-          console.log(flag);
           break;
       }
     }
@@ -85,29 +80,6 @@
     list.appendChild(node);
     }                             
   });
-  //Convert updates to ajax
-  /*$('button.').on('click', function(e){
-    e.preventDefault();
-    $button = $(this);
-        if($button.hasClass('locationupdate')){
-          var field = "location";
-        }
-        else{
-          field = "partner";
-        }
-        $.ajax({
-          url: 'http://localhost:3000/users/' + field,
-          type: 'POST',
-          data: {},
-          success: function(data) {
-            alert("Successful");
-            console.log('success');
-          },
-          error: function () {
-            alert("Something went wrong. Could not update.");
-          }
-        });
-  }*/
   </script>
 </body>
 </html>
