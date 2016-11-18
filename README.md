@@ -1,7 +1,8 @@
 ##Gossip Girl
 
-**A real-time notification system for stalking user activity, based on Node.js, Express and MongoDB.**
-There are 2 ways to accomplish this, one is simply by using socket.io to emit events on changes **nocursor** branch, and the other uses capped collections and tailable cursors for the tracking system, since MongoDB does not have triggers. The version with tailable cursors first prints out every "gossip" that the user follows and then listens for changes. *.limit()* / *.max_scan()* does not work with tailable cursors, and I couldn't figure out how to print just the last query using them, but apparently capped collections and tailable cursors perform better.
+**A real-time notification system for stalking user activity, based on Node.js, Express and MongoDB.** 
+There are 2 ways to accomplish this, one is simply by using socket.io to emit events on changes **nocursor** branch, and the other uses capped collections and tailable cursors for the tracking system, since MongoDB does not have triggers. 
+The version with tailable cursors first prints out every "gossip" that the user follows and then listens for changes. *.limit()* / *.max_scan()* does not work with tailable cursors, and I couldn't figure out how to print just the last query using them, but apparently capped collections and tailable cursors perform better.
 
 One can choose which attributes/fields of the user to keep track of. It uses an additional collection for maintaining the "gossip" which is the capped one, and as of now there are 2 fields that can be tracked - location and partner. It's easily customizable for more fields. 
 It makes use of Passport for helper functions of login and sessions and socket.io for the real-time notifications. 
@@ -12,7 +13,7 @@ It makes use of Passport for helper functions of login and sessions and socket.i
 * Download zip or clone this repo locally, and install required packages using `npm install`(install dev dependencies if you wish)
 * Run the mongod service
 * Create a *gossips* collection **which must be a capped collection** and a *users* collection.
-* Run the server using either `npm start` or node app.js. It runs on port 3000.
+* Run the server using either `npm start` or `node app.js`. It runs on port 3000.
 
 ###NOTES - 
 
