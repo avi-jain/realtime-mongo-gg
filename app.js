@@ -22,6 +22,7 @@ mongoose.connect('mongodb://localhost/test');
 
 const User = require('./db/models/userSchema.js');
 const Gossip = require('./db/models/gossipSchema.js');
+const auth = require('connect-ensure-login').ensureLoggedIn('/login');
 
 //Passport
 var passport = require('passport');
@@ -94,7 +95,7 @@ app.use(function(req, res, next){
   next();
 })
 app.use('/', routes);
-app.use('/users', users);
+app.use('/users', auth, users);
 app.post('/login',passport.authenticate('user'),function(req, res) {
     res.redirect('/users/home');
 });
@@ -102,7 +103,7 @@ app.post('/users/logout', function(req, res) {
     req.logout();
     res.redirect('/');
 });
-app.post('/logout', function(req, res) {
+app.post('/logout', auth, function(req, res) {
     req.logout();
     res.redirect('/');
 });

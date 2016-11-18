@@ -14,6 +14,9 @@
   <form class="logout-form" action="/logout" method="post">
         <button class="logout" type="submit" value="logout">Logout</button>
   </form>
+  <form class="homerd" action="/users/home" method="get">
+        <button id="home" type="submit" value="home">Home</button>
+  </form>
   <div class="table-responsive">
     <table class="table">
       <tr>
@@ -27,14 +30,17 @@
 
          <td><button class="follow location" >
          <!-- Check following or not -->
-        <% var found = false %>
+        <% var l = false %>
+        <% var p = false %>
         <% for(var j = 0; j < following.length; j++) { %>
             <% if((following[j].username == (users[i].username)) && (following[j].field == ("location"))){%>
-                <% found = true %>
-                <% break; %>
+                <% l = true %>
+            <% } %>
+            <% if((following[j].username == (users[i].username)) && (following[j].field == ("partner"))){%>
+                <% p = true %>
             <% } %>
         <% } %>
-         <% if(found){ %>
+         <% if(l){ %>
              Following
            <% } else{ %>  
              Follow
@@ -42,7 +48,7 @@
          </button></td>
 
          <td><button class="follow partner" >
-         <% if(found){ %>
+         <% if(p){ %>
            Following
          <% } else{ %>  
            Follow
@@ -59,12 +65,7 @@
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
   <script>
-  var socket = io();
-  socket.on('location', function(doc){
-                                   
-  });
   /*document.getElementByClassName("follow").addEventListener("click", function(){
-    
   });*/
 
 $('button.follow').on('click', function(e){
@@ -77,13 +78,13 @@ $('button.follow').on('click', function(e){
         else{
           field = "partner";
         }
-        //username = $(this).closest('td').filter('.username').text();
-        //console.log(username + field);
+        /*var username = $(this).closest('td').filter('.username');
+        console.log(username + field);*/
         //unfollow
         $.ajax({
           url: 'http://localhost:3000/users/stalk/unfollow',
           type: 'POST',
-          data: { username : "avi", field: field},
+          data: { username : username, field: field},
           success: function(data) {
             alert("Successfully Unfollowed!");
             console.log('success');
@@ -103,13 +104,13 @@ $('button.follow').on('click', function(e){
         else{
           field = "partner";
         }
-        //username = $(this).closest('td').filter('.username').text();
-        //console.log(username + field);
+        /*username = $(this).closest('td').filter('.username');
+        console.log(username + field);*/
         //follow
         $.ajax({
           url: 'http://localhost:3000/users/stalk/follow',
           type: 'POST',
-          data: {username:"avi",field: field},
+          data: {username:username,field: field},
           success: function(data) {
             alert("Successfully Followed!");
             console.log('success');
@@ -120,12 +121,9 @@ $('button.follow').on('click', function(e){
             alert("Something went wrong with Follow Button.");
           }
         });
-        
-        
+   
     }
 });
-  //Write logic for changing Stalk/Unstalk text on buttons and getting it right the first time
-  // by checking the following field of the user and matching the user and table on the field with it
   </script>
 </body>
 </html>

@@ -6,6 +6,9 @@ var api = require('../api/api.js');
 router.get('/', function(req, res, next) {
   res.render('index');
 });
+router.get('/login', function(req, res, next) {
+  res.render('index');
+});
 router.post('/register', api.signup);
 
 module.exports = router;
