@@ -79,7 +79,7 @@ exports.changeLocation = function(req, res) {
                 res.render("oops",{msg:""})
               }
               else{
-                //res.io.emit('location', { username: req.user.username, location: req.body.location });
+                res.io.emit('location', { username: req.user.username, data: req.body.location });
                 res.render("oops",{msg:"Updated location details"});
               }
             });
@@ -103,7 +103,7 @@ exports.changePartner = function(req, res) {
               if (err) {console.error(err);res.render("oops",{msg:""})}
               //No response
               else{
-                //res.io.emit('partner', { username: req.body.username, status: req.body.partner });
+                res.io.emit('partner', { username: req.body.username, data: req.body.partner });
                 res.render("oops",{msg:"Updated Partner details"});
               }
             });

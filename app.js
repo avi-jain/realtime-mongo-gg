@@ -125,8 +125,8 @@ app.post('/logout', auth, function(req, res) {
 
 // Mongo's tailable cursors can also be used for field level or nested level querying 
 // by modifying the find operation. Here we simply check the type field of the gossips collection.
-mongo.MongoClient.connect (mongodbUri, function (err, db) {
-  io.sockets.on("connection", function (socket) {
+/*mongo.MongoClient.connect (mongodbUri, function (err, db) {
+  io.sockets.on("connection", function (socket) {*/
   // For listening to all updates to db
   /*db.collection('gossips').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
                       .each(function(err, doc){
@@ -134,23 +134,23 @@ mongo.MongoClient.connect (mongodbUri, function (err, db) {
           socket.emit("all",doc);
         }
     });*/
-  db.collection('gossips').find({type:"partner"},{tailable:true, awaitData:true, numberOfRetries:-1}) 
+  /*db.collection('gossips').find({type:"partner"},{tailable:true, awaitData:true, numberOfRetries:-1}) 
                       .each(function(err, doc){
-      /*console.log(doc);*/
+      // console.log(doc);
       if (doc) {
           socket.emit("partner",doc);
         }
     });
   db.collection('gossips').find({type:"location"},{tailable:true, awaitData:true, numberOfRetries:-1}) 
                       .each(function(err, doc){
-      /*console.log(doc);*/
+      // console.log(doc);
       if (doc) {
           socket.emit("location",doc);
         }
     });
   
   });
-});
+});*/
 
 
 // catch 404 and forward to error handler
