@@ -99,7 +99,7 @@ app.use('/users', auth, users);
 app.post('/login',passport.authenticate('user'),function(req, res) {
     res.redirect('/users/home');
 });
-app.post('/users/logout', function(req, res) {
+app.post('/users/logout', auth, function(req, res) {
     req.logout();
     res.redirect('/');
 });
@@ -107,6 +107,9 @@ app.post('/logout', auth, function(req, res) {
     req.logout();
     res.redirect('/');
 });
+
+
+//Mongoose code
   /*var cursor = Gossip.find().tailable(true, { awaitData: true,numberOfRetries: Number.MAX_VALUE }).cursor();
 
   cursor.on('data', function(doc) {
@@ -124,13 +127,13 @@ app.post('/logout', auth, function(req, res) {
 // by modifying the find operation. Here we simply check the type field of the gossips collection.
 mongo.MongoClient.connect (mongodbUri, function (err, db) {
   io.sockets.on("connection", function (socket) {
-  db.collection('gossips').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
+  // For listening to all updates to db
+  /*db.collection('gossips').find({},{tailable:true, awaitData:true, numberOfRetries:-1}) 
                       .each(function(err, doc){
-      /*console.log(doc);*/
       if (doc) {
           socket.emit("all",doc);
         }
-    });
+    });*/
   db.collection('gossips').find({type:"partner"},{tailable:true, awaitData:true, numberOfRetries:-1}) 
                       .each(function(err, doc){
       /*console.log(doc);*/
@@ -149,19 +152,6 @@ mongo.MongoClient.connect (mongodbUri, function (err, db) {
   });
 });
 
-/*io.on('connection',function(socket){
-    console.log('Connection successful!');
-    // This event will be emitted when a user changes .
-    socket.on('allchange',function(data){
-        socket.volatile.emit('Status Changed');
-    });
-    socket.on('locationchange',function(data){
-        socket.emit('Location Changed');
-    });
-    socket.on('partnerchange',function(data){
-        socket.emit('Ahem');
-    });
-});*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -256,3 +246,5 @@ function onError(error) {
 
 server.listen(port);
 server.on('error', onError);
+//For testing
+module.exports = server;

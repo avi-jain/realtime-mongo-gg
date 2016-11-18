@@ -1,11 +1,9 @@
 
 body {
-  background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
-  font-family: "Roboto", sans-serif;
+  background: #136a8a; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #136a8a , #267871); 
+  background: linear-gradient(to left, #136a8a , #267871); 
+  font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 }
@@ -24,10 +22,10 @@ body {
   clear: both;
 }
 form button {
-    font-family: "Roboto", sans-serif;
+    font-family: "Montserrat", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #4CAF50;
+    background: #189ed0;
     width: 10%;
     border: 0;
     padding: 15px;
@@ -40,7 +38,7 @@ form button {
 }
 
 form input {
-    font-family: "Roboto", sans-serif;
+    font-family: "Montserrat", sans-serif;
     outline: 0;
     background: #f2f2f2;
     width: 40%;

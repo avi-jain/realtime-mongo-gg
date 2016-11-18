@@ -135,18 +135,3 @@ exports.getAllUsers = function(req, res) {
     }
   });
 }
-
-/*exports.changePartners = function(req, res) {
-	var options = {tailable: true, awaitdata: true, numberOfRetries: -1};
-
-	var stream = Gossip.find(, options).stream();
-
-	stream.on('data', function(doc){
-	    console.log(doc);
-	}).on('error', function (error){
-	    console.log(error);
-	}).on('close', function () {
-	    console.log('closed');
-	});
-
-});*/

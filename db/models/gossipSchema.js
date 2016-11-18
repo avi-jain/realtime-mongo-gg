@@ -1,8 +1,8 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
-// Could reference users collection but that'd be overkill, plus capped collection so 
-// can't perform complex operations here, it throws a size not equal error
+// Better approach than directly from users collection because plus capped collections 
+// can't perform complex operations , it throws a size not equal error
 // hence simple insertion everytime
 var gossipSchema = new Schema({
 		// Specify type such as location

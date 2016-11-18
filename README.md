@@ -13,6 +13,11 @@ and Mongo from
 
 ###NOTES - 
 
-* Pub-sub can be done better and faster with Redis, but I was accustomed to Mongo and wanted to play around with the tailable cursor feature (which is not documented properly in Mongoose, my ODM of choice :( )
+* Pub-sub can be done better and faster with Redis, but I was accustomed to Mongo and wanted to play around with the tailable cursor feature (which is not documented properly in Mongoose, my ODM of choice :( . Hence uses a small part of pure Mongo)
 * It's pretty lightweight, does not use a front-end framework(Angular/React), nor does it use any
 front-end libraries(Bootstrap/Material). So yes, it's kinda ugly to look at.
+* "Access-Control-Allow-Methods" -> "POST, GET,OPTIONS". Does the updates through post requests, rather than put requests, keeping in mind browser compatibility issues with put requests through forms. Can be easily changed.
+
+###TO-DO
+* Displays self username in stalk page. Remove that while looping over user list.
+* Convert location/partner updates to ajax instead of rendering a new page
