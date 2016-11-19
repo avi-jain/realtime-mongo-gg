@@ -1,9 +1,9 @@
-var chai = require('chai');
-var expect = require('chai').expect;
-var assert = require('chai').assert;
+var chai     = require('chai');
+var expect   = require('chai').expect;
+var assert   = require('chai').assert;
 var chaiHttp = require('chai-http');
-var request =require('request');
-var server = require('../app');
+var request  =require('request');
+var server   = require('../app');
 
 var should = chai.should();
 chai.use(chaiHttp);

@@ -14,6 +14,7 @@ It makes use of Passport for helper functions of login and sessions and socket.i
 * Run the mongod service
 * Create a *gossips* collection **which must be a capped collection** and a *users* collection.
 * Run the server using either `npm start` or `node app.js`. It runs on port 3000.
+* You'll need a working internet connection as the socket files and jquery is served via a CDN.
 
 ###NOTES - 
 

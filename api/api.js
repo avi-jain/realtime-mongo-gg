@@ -130,8 +130,6 @@ exports.getAllUsers = function(req, res) {
           res.render("users",{users:users,following:user.following});
         }
       });
-      //res.render("users",{users:users});
-      //res.json(users);
     }
   });
 }
