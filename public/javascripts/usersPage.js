@@ -10,8 +10,6 @@ $('button.follow').on('click', function(e){
         }
         //get the username
         var username = $(this).closest('tr').find('td:nth-child(1)').text();
-
-        console.log(username + field);
         //unfollow
         $.ajax({
           url: 'http://localhost:3000/users/stalk/unfollow',
@@ -36,9 +34,7 @@ $('button.follow').on('click', function(e){
         else{
           field = "partner";
         }
-        var parent = $(this).parent().text();
         var username = $(this).closest('tr').find('td:nth-child(1)').text();
-        console.log(username + field);
         //follow
         $.ajax({
           url: 'http://localhost:3000/users/stalk/follow',
