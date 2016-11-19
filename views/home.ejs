@@ -33,8 +33,6 @@
   <script>
     var user = <%- JSON.stringify(user) %>
   //console.log(user);
-  console.log(user.username);
-  console.log(typeof(user.following[0].username));
 
   var socket = io();
   socket.on('location', function(doc){
